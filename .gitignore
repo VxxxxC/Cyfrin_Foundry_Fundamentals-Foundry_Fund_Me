@@ -13,9 +13,6 @@ docs/
 # Dotenv file
 .env
 
-# Submodules
-lib/
-
 IDE stuffs
 .vscode/
 .wake/
