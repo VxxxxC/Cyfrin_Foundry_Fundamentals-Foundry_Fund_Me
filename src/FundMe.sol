@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import {AggregatorV3Interface} from "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
+import {AggregatorV3Interface} from
+    "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 import {PriceConverter} from "./PriceConverter.sol";
 
 error FundMe__NotOwner();
@@ -64,7 +65,6 @@ contract FundMe {
         return s_addressToAmountFunded[fundingAddress];
     }
 
-
     function getFunder(uint256 index) public view returns (address) {
         return s_funders[index];
     }
@@ -76,5 +76,4 @@ contract FundMe {
     function getVersion() public view returns (uint256) {
         return s_priceFeed.version();
     }
-
 }

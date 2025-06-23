@@ -7,7 +7,6 @@ import {FundMe} from "../src/FundMe.sol";
 
 contract DeployFundMe is Script {
     function deployFundMe() public returns (FundMe) {
-
         // This is the address of the ETH/USD price feed on Sepolia
         HelperConfig helperConfig = new HelperConfig();
 
