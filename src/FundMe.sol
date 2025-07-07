@@ -13,7 +13,7 @@ contract FundMe {
 
     // State variables
     uint256 public constant MINIMUM_USD = 5 * 10 ** 18;
-    address public immutable i_owner;
+    address private immutable i_owner;
     address[] private s_funders;
     mapping(address => uint256) private s_addressToAmountFunded;
     AggregatorV3Interface private s_priceFeed;
@@ -30,14 +30,14 @@ contract FundMe {
     }
 
     /// @notice Funds our contract based on the ETH/USD price
-    function fund() public payable {
+    function fund() external payable {
         require(msg.value.getConversionRate(s_priceFeed) >= MINIMUM_USD, "You need to spend more ETH!");
         // require(PriceConverter.getConversionRate(msg.value) >= MINIMUM_USD, "You need to spend more ETH!");
         s_addressToAmountFunded[msg.sender] += msg.value;
         s_funders.push(msg.sender);
     }
 
-    function withdraw() public onlyOwner {
+    function withdraw() external onlyOwner {
         for (uint256 funderIndex = 0; funderIndex < s_funders.length; funderIndex++) {
             address funder = s_funders[funderIndex];
             s_addressToAmountFunded[funder] = 0;
@@ -48,7 +48,7 @@ contract FundMe {
         require(success);
     }
 
-    function cheaperWithdraw() public onlyOwner {
+    function cheaperWithdraw() external onlyOwner {
         address[] memory funders = s_funders;
         // mappings can't be in memory, sorry!
         for (uint256 funderIndex = 0; funderIndex < funders.length; funderIndex++) {
@@ -61,19 +61,23 @@ contract FundMe {
         require(success);
     }
 
-    function getAddressToAmountFunded(address fundingAddress) public view returns (uint256) {
+    function getAddressToAmountFunded(address fundingAddress) external view returns (uint256) {
         return s_addressToAmountFunded[fundingAddress];
     }
 
-    function getFunder(uint256 index) public view returns (address) {
+    function getFunder(uint256 index) external view returns (address) {
         return s_funders[index];
     }
 
-    function getOwner() public view returns (address) {
+    function getOwner() external view returns (address) {
         return i_owner;
     }
 
-    function getVersion() public view returns (uint256) {
+    function getVersion() external view returns (uint256) {
         return s_priceFeed.version();
+    }
+
+    function getBalance() external view returns (uint256) {
+      return address(this).balance;
     }
 }
