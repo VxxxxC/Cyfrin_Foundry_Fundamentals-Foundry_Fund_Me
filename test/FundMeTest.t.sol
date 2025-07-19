@@ -87,11 +87,11 @@ contract FundMeTest is Test {
         uint160 numberOfFunders = 10;
         uint160 startingFunderIndex = 1;
 
-        for (uint256 i = startingFunderIndex; i < numberOfFunders; i++) {
+        for (uint160 i = startingFunderIndex; i < numberOfFunders; i++) {
             // vm.prank new address
             // vm.deal new adress
             // fund the fundMe
-            hoax(address(i), SEND_VALUE); // FIXME
+            hoax(address(i), SEND_VALUE); // FIXME:
             fundMe.fund{value: SEND_VALUE}();
         }
 
