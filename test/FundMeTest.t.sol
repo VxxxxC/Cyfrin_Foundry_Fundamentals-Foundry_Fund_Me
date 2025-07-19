@@ -12,6 +12,7 @@ contract FundMeTest is Test {
     address USER = makeAddr("user");
     uint256 constant SEND_VALUE = 0.1 ether;
     uint256 constant INIT_VALUE = 10 ether;
+    uint256 constant GAS_PRICE = 1 gwei;
 
     modifier funded() {
         vm.prank(USER); // This will make "USER" as a msg.sender, so the next transaction of "fundMe.fund" , value will sent by "USER"
@@ -73,8 +74,15 @@ contract FundMeTest is Test {
         uint256 startingFundMeBalance = fundMe.getBalance();
 
         // Act
+        uint256 gasStart = gasleft();
+
+        vm.txGasPrice(GAS_PRICE);
         vm.prank(fundMe.getOwner());
         fundMe.withdraw();
+
+        uint256 gasEnd = gasleft();
+        uint256 gasUsed = (gasStart - gasEnd) * tx.gasprice;
+        console.log("Gas used: ", gasUsed);
 
         // Assert
         uint256 endingOwnerBalance = fundMe.getOwner().balance;
@@ -91,7 +99,8 @@ contract FundMeTest is Test {
             // vm.prank new address
             // vm.deal new adress
             // fund the fundMe
-            hoax(address(i), SEND_VALUE); // FIXME:
+            console.log("Funding from address: ", i);
+            hoax(address(i), SEND_VALUE);
             fundMe.fund{value: SEND_VALUE}();
         }
 
