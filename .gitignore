@@ -13,6 +13,12 @@ docs/
 # Dotenv file
 .env
 
-IDE stuffs
+# IDE stuffs
 .vscode/
 .wake/
+
+# MacOS files
+.DS_Store
+
+# ZkSync compile files
+zkout/
