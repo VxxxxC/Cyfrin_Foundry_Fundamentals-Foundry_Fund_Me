@@ -22,3 +22,6 @@ docs/
 
 # ZkSync compile files
 zkout/
+
+# Submodules
+lib/
